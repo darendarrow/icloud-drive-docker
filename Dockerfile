@@ -4,8 +4,10 @@ WORKDIR /app
 COPY requirements.txt .
 RUN python -m venv venv
 ENV PATH="/app/venv/bin/:$PATH"
-RUN pip install -U pip
+RUN pip install -U pip 
+RUN pip install --user --upgrade pip 
 RUN pip install -r requirements.txt
+RUN pip --disable-pip-version-check list --outdated --format=json | python -c "import json, sys; print('\n'.join([x['name'] for x in json.load(sys.stdin)]))"
 FROM python:3.10-alpine
 ARG APP_VERSION=dev
 ARG NEW_INSTALLATION_ENDPOINT=dev
