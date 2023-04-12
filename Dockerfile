@@ -1,4 +1,4 @@
-FROM python:3.10-alpine AS build
+FROM python:alpine AS build
 RUN apk update && apk add git gcc musl-dev python3-dev libffi-dev openssl-dev cargo
 WORKDIR /app
 COPY requirements.txt .
@@ -8,7 +8,7 @@ RUN pip install -U pip
 RUN pip install --upgrade pip 
 RUN pip install -r requirements.txt
 RUN pip --disable-pip-version-check list --outdated --format=json | python -c "import json, sys; print('\n'.join([x['name'] for x in json.load(sys.stdin)]))"
-FROM python:3.10-alpine
+FROM python:alpine
 ARG APP_VERSION=dev
 ARG NEW_INSTALLATION_ENDPOINT=dev
 ARG NEW_HEARTBEAT_ENDPOINT=dev
